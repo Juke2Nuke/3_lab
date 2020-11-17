@@ -281,5 +281,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnChangeSignOnClick(View view) {
+        input.setText(Integer.toString(Integer.parseInt(input.getText().toString())*-1));
     }
 }
