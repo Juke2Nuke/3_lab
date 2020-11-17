@@ -67,57 +67,82 @@ public class MainActivity extends AppCompatActivity {
         this.btnChangeSign = findViewById(R.id.btnChangeSign);
     }
     double solution=0;
-    public void btnInverseOnClick(View view) {
-
-    }
-
-    public void btnDelOneOnClick(View view) {
-    }
-
-    public void btnClrAllOnClick(View view) {
-    }
-
-    public void btnClrInputOnClick(View view) {
-    }
-
-    public void btnEqualsOnClick(View view) {
+    boolean afterCalc=false;
+    public void calculate(View view)
+    {
         if(pendingActions.getText().toString().substring(pendingActions.getText().toString().length() - 1).equals("+"))
         {
             solution = solution + Double.parseDouble(input.getText().toString());
-            pendingActions.append(input.getText()+"=");
+            pendingActions.append(input.getText());
         }
         else if (pendingActions.getText().toString().substring(pendingActions.getText().toString().length() - 1).equals("-"))
         {
             solution = solution - Double.parseDouble(input.getText().toString());
-            pendingActions.append(input.getText()+"=");
+            pendingActions.append(input.getText());
         }
         else if (pendingActions.getText().toString().substring(pendingActions.getText().toString().length() - 1).equals("*"))
         {
             solution = solution * Double.parseDouble(input.getText().toString());
-            pendingActions.append(input.getText()+"=");
+            pendingActions.append(input.getText());
         }
         else if (pendingActions.getText().toString().substring(pendingActions.getText().toString().length() - 1).equals("/"))
         {
             solution = solution / Double.parseDouble(input.getText().toString());
-            pendingActions.append(input.getText()+"=");
+            pendingActions.append(input.getText());
         }
+    }
+    public void outputFormat(View view)
+    {
         if(solution == (int)solution)input.setText(Integer.toString((int)solution));
         else input.setText(Double.toString(solution));
     }
+    public void btnInverseOnClick(View view) {
+        input.setText(Double.toString(1/Double.parseDouble(input.getText().toString())));
+        calculate(view);
+        outputFormat(view);
+        pendingActions.setText("");
+        solution = 0;
+    }
+
+    public void btnDelOneOnClick(View view) {
+        input.setText(input.getText().toString().substring(0, input.getText().length() - 1));
+    }
+
+    public void btnClrAllOnClick(View view) {
+        input.setText("");
+        solution = 0;
+        pendingActions.setText("");
+        afterCalc = false;
+    }
+
+    public void btnClrInputOnClick(View view) {
+        input.setText("");
+    }
+
+    public void btnEqualsOnClick(View view) {
+        calculate(view);
+        pendingActions.append("=");
+        outputFormat(view);
+        afterCalc = true;
+    }
 
     public void btnSixOnClick(View view) {
-        if (input.getText().equals("0")){
-            input.setText("");
+        if (input.getText().equals("0") | afterCalc==true){
+            btnClrAllOnClick(view);
         }
         input.append("6");
     }
 
     public void btnPowerOnClick(View view) {
+        input.setText(Double.toString(Double.parseDouble(input.getText().toString())*Double.parseDouble(input.getText().toString())));
+        calculate(view);
+        outputFormat(view);
+        pendingActions.setText("");
     }
 
     public void btnSevenOnClick(View view) {
-        if (input.getText().equals("0")){
-            input.setText("");
+        if (input.getText().equals("0") | afterCalc==true){
+            btnClrAllOnClick(view);
         }
         input.append("7");
     }
@@ -163,39 +188,43 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnOneOnClick(View view) {
-        if (input.getText().equals("0")){
-            input.setText("");
+        if (input.getText().equals("0") | afterCalc==true){
+            btnClrAllOnClick(view);
         }
         input.append("1");
     }
 
     public void btnThreeOnClick(View view) {
-        if (input.getText().equals("0")){
-            input.setText("");
+        if (input.getText().equals("0") | afterCalc==true){
+            btnClrAllOnClick(view);
         }
         input.append("3");
     }
 
     public void btnPercentOnClick(View view) {
+        input.setText(Double.toString(Double.parseDouble(input.getText().toString())/100));
+        calculate(view);
+        outputFormat(view);
+        pendingActions.setText("");
     }
 
     public void btnNineOnClick(View view) {
-        if (input.getText().equals("0")){
-            input.setText("");
+        if (input.getText().equals("0") | afterCalc==true){
+            btnClrAllOnClick(view);
         }
         input.append("9");
     }
 
     public void btnZeroOnClick(View view) {
-        if (input.getText().equals("0")){
-            input.setText("");
+        if (input.getText().equals("0") | afterCalc==true){
+            btnClrAllOnClick(view);
         }
         input.append("0");
     }
 
     public void btnFiveOnClick(View view) {
-        if (input.getText().equals("0")){
-            input.setText("");
+        if (input.getText().equals("0") | afterCalc==true){
+            btnClrAllOnClick(view);
         }
         input.append("5");
     }
@@ -216,31 +245,39 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnEightOnClick(View view) {
-        if (input.getText().equals("0")){
-            input.setText("");
+        if (input.getText().equals("0") | afterCalc==true){
+            btnClrAllOnClick(view);
         }
         input.append("8");
     }
 
     public void btnFourOnClick(View view) {
-        if (input.getText().equals("0")){
-            input.setText("");
+        if (input.getText().equals("0") | afterCalc==true){
+            btnClrAllOnClick(view);
         }
         input.append("4");
     }
 
     public void btnTwoOnClick(View view) {
-        if (input.getText().equals("0")){
-            input.setText("");
+        if (input.getText().equals("0") | afterCalc==true){
+            btnClrAllOnClick(view);
         }
         input.append("2");
     }
 
     public void btnDotOnClick(View view) {
-        input.append(".");
+        if(afterCalc==true){
+            btnClrAllOnClick(view);
+        }
+        if(input.getText().equals(""))input.append("0.");
+        else input.append(".");
     }
 
     public void btnRootOnClick(View view) {
+        input.setText(Double.toString(Math.sqrt(Double.parseDouble(input.getText().toString()))));
+        calculate(view);
+        outputFormat(view);
+        pendingActions.setText("");
     }
 
     public void btnChangeSignOnClick(View view) {
