@@ -66,29 +66,24 @@ public class MainActivity extends AppCompatActivity {
         this.btnRoot = findViewById(R.id.btnRoot);
         this.btnChangeSign = findViewById(R.id.btnChangeSign);
     }
-    double solution=0;
+    double solution=0.0;
     boolean afterCalc=false;
     public void calculate(View view)
     {
-        if(pendingActions.getText().toString().substring(pendingActions.getText().toString().length() - 1).equals("+"))
-        {
-            solution = solution + Double.parseDouble(input.getText().toString());
-            pendingActions.append(input.getText());
-        }
-        else if (pendingActions.getText().toString().substring(pendingActions.getText().toString().length() - 1).equals("-"))
-        {
-            solution = solution - Double.parseDouble(input.getText().toString());
-            pendingActions.append(input.getText());
-        }
-        else if (pendingActions.getText().toString().substring(pendingActions.getText().toString().length() - 1).equals("*"))
-        {
-            solution = solution * Double.parseDouble(input.getText().toString());
-            pendingActions.append(input.getText());
-        }
-        else if (pendingActions.getText().toString().substring(pendingActions.getText().toString().length() - 1).equals("/"))
-        {
-            solution = solution / Double.parseDouble(input.getText().toString());
-            pendingActions.append(input.getText());
+        if(!(pendingActions.getText().equals(""))) {
+            if (pendingActions.getText().toString().substring(pendingActions.getText().toString().length() - 1).equals("+")) {
+                solution += Double.parseDouble(input.getText().toString());
+                pendingActions.append(input.getText());
+            } else if (pendingActions.getText().toString().substring(pendingActions.getText().toString().length() - 1).equals("-")) {
+                solution -= Double.parseDouble(input.getText().toString());
+                pendingActions.append(input.getText());
+            } else if (pendingActions.getText().toString().substring(pendingActions.getText().toString().length() - 1).equals("*")) {
+                solution *= Double.parseDouble(input.getText().toString());
+                pendingActions.append(input.getText());
+            } else if (pendingActions.getText().toString().substring(pendingActions.getText().toString().length() - 1).equals("/")) {
+                solution /= Double.parseDouble(input.getText().toString());
+                pendingActions.append(input.getText());
+            }
         }
     }
     public void outputFormat(View view)
@@ -97,11 +92,11 @@ public class MainActivity extends AppCompatActivity {
         else input.setText(Double.toString(solution));
     }
     public void btnInverseOnClick(View view) {
+        if(!pendingActions.getText().equals("")) {
+            calculate(view);
+            outputFormat(view);
+        }
         input.setText(Double.toString(1/Double.parseDouble(input.getText().toString())));
-        calculate(view);
-        outputFormat(view);
-        pendingActions.setText("");
-        solution = 0;
     }
 
     public void btnDelOneOnClick(View view) {
@@ -111,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
     public void btnClrAllOnClick(View view) {
         input.setText("");
         solution = 0;
-        pendingActions.setText("");
+        pendingActions.setText(" ");
         afterCalc = false;
     }
 
@@ -121,32 +116,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void btnEqualsOnClick(View view) {
         calculate(view);
-        pendingActions.append("=");
+        if((pendingActions.getText().equals(" "))){pendingActions.append("=");}
+        else if (afterCalc == false){pendingActions.append("=");}
         outputFormat(view);
         afterCalc = true;
     }
 
-    public void btnSixOnClick(View view) {
-        if (input.getText().equals("0") | afterCalc==true){
-            btnClrAllOnClick(view);
-        }
-        input.append("6");
-    }
-
     public void btnPowerOnClick(View view) {
-        input.setText(Double.toString(Double.parseDouble(input.getText().toString())*Double.parseDouble(input.getText().toString())));
-        calculate(view);
-        outputFormat(view);
-        pendingActions.setText("");
-    }
-
-    public void btnSevenOnClick(View view) {
-        if (input.getText().equals("0") | afterCalc==true){
-            btnClrAllOnClick(view);
+        if(!pendingActions.getText().equals("")) {
+            calculate(view);
+            outputFormat(view);
         }
-        input.append("7");
+        input.setText(Double.toString(Double.parseDouble(input.getText().toString())*Double.parseDouble(input.getText().toString())));
     }
-
     public void btnPlusOnClick(View view) {
         if(solution==0)
         {
@@ -159,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
         pendingActions.append(input.getText()+"+");
         input.setText("");
     }
-
     public void btnMultiplyOnClick(View view) {
         if(solution==0)
         {
@@ -186,6 +167,50 @@ public class MainActivity extends AppCompatActivity {
         pendingActions.append(input.getText()+"-");
         input.setText("");
     }
+    public void btnPercentOnClick(View view) {
+        if(!pendingActions.getText().equals("")) {
+            calculate(view);
+            outputFormat(view);
+        }
+        input.setText(Double.toString(Double.parseDouble(input.getText().toString())/100));
+    }
+    public void btnDivideOnClick(View view) {
+        if(solution==0)
+        {
+            solution = Double.parseDouble(input.getText().toString());
+        }
+        else
+        {
+
+            solution = solution / Double.parseDouble(input.getText().toString());
+        }
+
+        pendingActions.append(input.getText()+"/");
+        input.setText("");
+    }
+    public void btnRootOnClick(View view) {
+        if(!pendingActions.getText().equals("")) {
+            calculate(view);
+            outputFormat(view);
+        }
+        input.setText(Double.toString(Math.sqrt(Double.parseDouble(input.getText().toString()))));
+    }
+
+
+
+    public void btnSixOnClick(View view) {
+        if (input.getText().equals("0") | afterCalc==true){
+            btnClrAllOnClick(view);
+        }
+        input.append("6");
+    }
+
+    public void btnSevenOnClick(View view) {
+        if (input.getText().equals("0") | afterCalc==true){
+            btnClrAllOnClick(view);
+        }
+        input.append("7");
+    }
 
     public void btnOneOnClick(View view) {
         if (input.getText().equals("0") | afterCalc==true){
@@ -201,12 +226,6 @@ public class MainActivity extends AppCompatActivity {
         input.append("3");
     }
 
-    public void btnPercentOnClick(View view) {
-        input.setText(Double.toString(Double.parseDouble(input.getText().toString())/100));
-        calculate(view);
-        outputFormat(view);
-        pendingActions.setText("");
-    }
 
     public void btnNineOnClick(View view) {
         if (input.getText().equals("0") | afterCalc==true){
@@ -229,20 +248,6 @@ public class MainActivity extends AppCompatActivity {
         input.append("5");
     }
 
-    public void btnDivideOnClick(View view) {
-        if(solution==0)
-        {
-            solution = Double.parseDouble(input.getText().toString());
-        }
-        else
-        {
-
-            solution = solution / Double.parseDouble(input.getText().toString());
-        }
-
-        pendingActions.append(input.getText()+"/");
-        input.setText("");
-    }
 
     public void btnEightOnClick(View view) {
         if (input.getText().equals("0") | afterCalc==true){
@@ -273,12 +278,6 @@ public class MainActivity extends AppCompatActivity {
         else input.append(".");
     }
 
-    public void btnRootOnClick(View view) {
-        input.setText(Double.toString(Math.sqrt(Double.parseDouble(input.getText().toString()))));
-        calculate(view);
-        outputFormat(view);
-        pendingActions.setText("");
-    }
 
     public void btnChangeSignOnClick(View view) {
         input.setText(Integer.toString(Integer.parseInt(input.getText().toString())*-1));
